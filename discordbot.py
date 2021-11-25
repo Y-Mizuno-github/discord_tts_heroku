@@ -87,11 +87,10 @@ def ssml_to_speech(ssml, file, language_code, wavenet_jpen):
 def play_voice(text):
     bl_ja_en = detect_ja(text)
     ssml = text_to_ssml(text)
-    if message.author.id != 718763604110999572:
-        if bl_ja_en == "ja-JP":
-            file = ssml_to_speech(ssml, "voice.mp3", "ja-JP",'ja-JP-Wavenet-B')
-        else:
-            file = ssml_to_speech(ssml, "voice.mp3", "en_US",'en-US-Wavenet-C')
+    if bl_ja_en == "ja-JP":
+        file = ssml_to_speech(ssml, "voice.mp3", "ja-JP",'ja-JP-Wavenet-B')
+    else:
+        file = ssml_to_speech(ssml, "voice.mp3", "en_US",'en-US-Wavenet-C')
     voiceChannel.play(FFmpegPCMAudio(file))
 
 token = getenv('DISCORD_BOT_TOKEN')
