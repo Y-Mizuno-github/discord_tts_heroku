@@ -2,6 +2,7 @@ from discord.ext import commands
 from os import getenv
 import traceback
 import discord
+import asyncio
 import html
 import re
 from discord.channel import VoiceChannel
@@ -17,6 +18,16 @@ async def on_ready():
     global Voice_State
     print('Login!!!')
     Voice_State = 0
+
+@client.event
+async def on_voice_state_update(member, before, after):
+    global Voice_State
+    if Voice_State == 1 and after.channel is None:
+        if member.id != client.user.id:
+            if member.guild.voice_client.channel is before.channel:
+                if len(member.guild.voice_client.channel.members) == 1:
+                    await asyncio.sleep(1)
+                    await member.guild.voice_client.disconnect()
 
 # メッセージに反応
 @client.event

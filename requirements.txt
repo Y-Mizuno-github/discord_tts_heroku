@@ -4,5 +4,6 @@ google-api-core
 google-auth
 google-cloud-texttospeech
 googleapis-common-protos
+asyncio
 PyNaCl
 ffmpeg
