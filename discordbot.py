@@ -22,26 +22,24 @@ async def on_ready():
     print('Login!!!')
     Voice_State = 0
 
-# チャンネル入退室時の通知処理
-@client.event
-async def on_voice_state_update(member, before, after):
-
-    # チャンネルへの入室ステータスが変更されたとき（ミュートON、OFFに反応しないように分岐）
-        # 通知メッセージを書き込むテキストチャンネル（チャンネルIDを指定）
-        botRoom = client.get_channel(TEXT_CHANNEL_ve)
-
-        # 入室通知（画面共有に反応しないように分岐）
-        if after.channel is not None and after.channel is not before.channel:
-            if before.channel is None:
-                if after.channel.id != DND_CHANNEL:
-                    await botRoom.send( member.name + " が参加しました！")
-        if before.channel is not None and after.channel is None:
-            if len(before.channel.members) == 0: 
-                await botRoom.send("ボイチャに誰もいなくなりました")
 
 @client.event
 async def on_voice_state_update(member, before, after):
     global Voice_State
+
+    # チャンネルへの入室ステータスが変更されたとき（ミュートON、OFFに反応しないように分岐）
+    # 通知メッセージを書き込むテキストチャンネル（チャンネルIDを指定）
+    botRoom = client.get_channel(TEXT_CHANNEL_ve)
+
+    # 入室通知（画面共有に反応しないように分岐）
+    if after.channel is not None and after.channel is not before.channel:
+        if before.channel is None:
+            if after.channel.id != DND_CHANNEL:
+                await botRoom.send( member.name + " が参加しました!")
+    if before.channel is not None and after.channel is None:
+        if len(before.channel.members) == 0: 
+            await botRoom.send("ボイチャに誰もいなくなりました")
+
     if Voice_State == 1 and after.channel is None:
         if member.id != client.user.id:
             if member.guild.voice_client.channel is before.channel:
